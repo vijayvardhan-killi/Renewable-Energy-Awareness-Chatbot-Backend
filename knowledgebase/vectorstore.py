@@ -9,7 +9,7 @@ load_dotenv()
  
 embedding_model = GoogleGenerativeAIEmbeddings(
     model="models/embedding-001",
-    google_api_key=os.getenv("GOOGLE_API_KEY")    # "AIzaSyAC4BvC5ESrGAF539UrzPBuUOvIcmVZNBw"
+    google_api_key=os.getenv("GOOGLE_API_KEY")
     )
 
 def get_vectorstore(chunks):
