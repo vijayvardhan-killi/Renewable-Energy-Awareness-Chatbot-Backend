@@ -1,0 +1,69 @@
+
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.env/
+*.env
+
+# Flask instance folder and settings
+instance/
+*.db
+*.sqlite3
+*.log
+
+# Pytest cache
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# VSCode settings
+.vscode/
+
+# PyCharm
+.idea/
+
+# MyPy
+.mypy_cache/
+
+# Flask's __init__.pyc
+**/__init__.pyc
+
+# Gunicorn / uWSGI logs
+*.pid
+*.pid.lock
+
+# Pip freeze files (optional if not using)
+Pipfile.lock
+poetry.lock
+
+# Static file cache
+*.sass-cache
+*.egg-info/
+
+# Ignore compiled translations
+*.mo
+
+# Ignore node_modules if you use npm with Flask (e.g. for frontend)
+node_modules/
+
+# Ignore temporary files
+*.swp
+*.tmp*
+*~
+.DS_Store
+Thumbs.db
