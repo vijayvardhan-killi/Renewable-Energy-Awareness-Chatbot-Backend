@@ -1,4 +1,5 @@
 from flask import Flask , jsonify , request
+from flask_cors import CORS
 from knowledgebase.text_processing import extract_text_from_pdfs , extract_chunks
 from langchain.chains import RetrievalQA
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -6,6 +7,7 @@ from langchain.prompts import PromptTemplate
 import os
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 
 # ========== Global Variables ==========

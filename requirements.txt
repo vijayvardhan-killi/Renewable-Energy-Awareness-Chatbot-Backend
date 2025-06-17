@@ -5,3 +5,4 @@ langchain-google-genai
 faiss-cpu
 PyPDF2
 flask
+flask-cors
