@@ -1,8 +1,22 @@
+# API framework
+fastapi
+uvicorn
+
+# RAG / LLM
 langchain
 langchain-community
 langchain-core
 langchain-google-genai
+
+# Vector database
 faiss-cpu
+
+# PDF ingestion (offline)
 PyPDF2
-flask
-flask-cors
+
+# OAuth (Google ID token verification)
+google-auth
+
+# Request handling & env
+python-multipart
+python-dotenv
