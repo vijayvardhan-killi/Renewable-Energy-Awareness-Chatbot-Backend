@@ -16,8 +16,8 @@ faiss-cpu
 # PDF ingestion (offline)
 PyPDF2
 
-# Embedding models
-sentence-transformers
+# Embedding models for ingestion of large docs used locally
+# sentence-transformers
 
 # OAuth (Google ID token verification)
 google-auth
