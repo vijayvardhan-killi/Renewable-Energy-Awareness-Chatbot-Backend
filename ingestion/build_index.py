@@ -1,9 +1,21 @@
 from ingestion.text_processing import extract_text_from_pdfs, extract_chunks
-from rag.retriver import get_vectorstore
-# Build the vectorstore (faiss_index) offline
+from rag.vectorstore import get_vectorstore
 
-texts = extract_text_from_pdfs("knowledge_sources_pdfs")
-print(f"{len(texts)} PDFs processed.")
-chunks = extract_chunks(texts)
-vectorstore = get_vectorstore(chunks)
-vectorstore.save_local("faiss_index")
+
+def run_ingestion():
+    # Extract text from PDF's
+    texts = extract_text_from_pdfs("knowledge_sources_pdfs")
+
+    # Break the text into Chunks
+    chunks = extract_chunks(texts)
+
+    # Create vectorstore
+    vectorstore = get_vectorstore()
+    vectorstore.add_texts(chunks)
+
+    print("Ingestion complete")
+
+if __name__ == "__main__":
+    run_ingestion()
+
+
