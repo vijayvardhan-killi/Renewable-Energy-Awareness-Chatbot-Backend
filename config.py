@@ -1,9 +1,8 @@
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
 load_dotenv()
 
-GOOGLE_API_KEY=os.getenv("GOOGLE_API_KEY")
 HF_API_KEY = os.getenv("HF_API_KEY")
-
-
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
