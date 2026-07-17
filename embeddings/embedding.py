@@ -1,32 +1,17 @@
+from huggingface_hub import InferenceClient
+from config import HF_API_KEY
 
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_huggingface import HuggingFaceEndpointEmbeddings
-from dotenv import load_dotenv
-from config import GOOGLE_API_KEY,HF_API_KEY
+MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 
-
-# embedding_model = GoogleGenerativeAIEmbeddings(
-#     model="models/embedding-001",
-#     google_api_key=GOOGLE_API_KEY,
-#     )
+_client = InferenceClient(provider="hf-inference", api_key=HF_API_KEY)
 
 
-model_name = "sentence-transformers/all-MiniLM-L6-v2"
-model_kwargs = {"device": "cpu"}
-encode_kwargs = {"normalize_embeddings": True}
-
-# embedding_model =  HuggingFaceEmbeddings(
-#     model_name=model_name,
-#     model_kwargs=model_kwargs,
-#     encode_kwargs=encode_kwargs,
-# )
-
-embedding_model =  HuggingFaceEndpointEmbeddings(
-    model=model_name,
-    # model_kwargs=model_kwargs,
-    provider="hf-inference",
-    huggingfacehub_api_token=HF_API_KEY,
-    # encode_kwargs=encode_kwargs,
-
-    )
+def embed_query(text: str) -> list[float]:
+    """
+    Mirrors langchain_huggingface.HuggingFaceEndpointEmbeddings.embed_query()
+    exactly: same client call, same newline replacement, same model —
+    so vectors are identical to what's already indexed in Pinecone.
+    """
+    text = text.replace("\n", " ")
+    response = _client.feature_extraction(text=text, model=MODEL_NAME)
+    return response.tolist() if hasattr(response, "tolist") else list(response)

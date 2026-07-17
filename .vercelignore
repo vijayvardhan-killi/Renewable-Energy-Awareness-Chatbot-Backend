@@ -1,0 +1,7 @@
+knowledge_sources_pdfs/
+faiss_index/
+Client/
+ingestion/
+.git/
+*.md
+tests/

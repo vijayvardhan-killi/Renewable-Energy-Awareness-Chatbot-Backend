@@ -1,18 +1,13 @@
-from llm.groq import groq_model
-
+from llm.groq import generate
 from prompts.system_prompt import get_prompt
-from rag.retriver import get_retriever
+from rag.retriver import get_context
 
-def search(query:str):
-    """Gets the relvent information from already acquired Knowledgebase"""
-    retriever = get_retriever() 
-    docs = retriever.invoke(query)
-    return "\n\n".join(d for d in docs)
 
-def run_agent(query ) -> str:
-    """runs the agent for given query"""
-    model= groq_model
-    context = search(query)
-    prompt = get_prompt(context , query)
-    response = model.invoke(prompt)
-    return response
+def run_agent(query: str) -> str:
+    """Runs the RAG pipeline for a given query. Returns the answer text
+    directly (unlike the original, which returned a langchain AIMessage
+    with a .content attribute) - app.py's /query endpoint is updated
+    to match."""
+    context = get_context(query)
+    prompt = get_prompt(context, query)
+    return generate(prompt)

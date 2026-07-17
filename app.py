@@ -4,10 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from schemas.query import QueryRequest
 from rag.agent import run_agent
 
-app = FastAPI(title="Renewable Energy Awareness Chatbot API")
+app = FastAPI(title="Renewable Energy Awareness Chatbot API (lite)")
 
-# CORS 
-# Enable CORS for all routes
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,20 +15,14 @@ app.add_middleware(
 )
 
 
-
-
-
-# === Home endpoint ===
 @app.get("/")
 def health_check():
-    return {"message": "Welocome to CHATBOT API"}
+    return {"message": "Welcome to CHATBOT API (lite build)"}
 
 
-# === Query endpoint ===
 @app.post("/query")
-def query(payload : QueryRequest):
+def query(payload: QueryRequest):
     if not payload.question:
-        return {"error" : "Question required"}
-    result = run_agent(payload.question)
-
-    return {"answer" : result.content}
+        return {"error": "Question required"}
+    answer = run_agent(payload.question)
+    return {"answer": answer}

@@ -1,18 +1,13 @@
 from pinecone import Pinecone
-from langchain_pinecone import PineconeVectorStore
-from embeddings.embedding import embedding_model
-from ingestion.pineconedb import index_name
-import os
+from config import PINECONE_API_KEY
 
-def get_vectorstore():
-    """Create the vectorstore using PINECONE cloud."""
-    pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-    index = pc.Index(index_name)
+INDEX_NAME = "renewable-energy-kb"
 
-    vectorstore = PineconeVectorStore(
-        index=index,
-        embedding=embedding_model,
-        text_key="text",
-    )
-    
-    return vectorstore
+_pc = Pinecone(api_key=PINECONE_API_KEY)
+_index = _pc.Index(INDEX_NAME)
+
+
+def get_index():
+    """Raw Pinecone index handle - no langchain_pinecone wrapper
+    (which pulls in langchain-openai -> openai + tiktoken, and numpy)."""
+    return _index

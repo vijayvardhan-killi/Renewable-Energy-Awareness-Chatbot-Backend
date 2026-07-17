@@ -1,30 +1,24 @@
-from langchain_community.vectorstores import FAISS
-from embeddings.embedding import embedding_model
-from langchain_core.tools import create_retriever_tool
-from rag.vectorstore import get_vectorstore
+from embeddings.embedding import embed_query
+from rag.vectorstore import get_index
 
-from pinecone import Pinecone
-import os
-
-# Pinecone
-pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-index_name = "renewable-energy-kb"
+TOP_K = 4
+TEXT_KEY = "text"  # matches text_key="text" used when the index was built
 
 
-def load_vectorstore(index_path: str):
-    """Load the existing vector store from faiss_index folder"""
-
-    return FAISS.load_local(index_path, embeddings=embedding_model, allow_dangerous_deserialization=True)
-
-
-def get_retriever():
-    """Return the vector store as retriver """
-    vectorstore = get_vectorstore()
-    return create_retriever_tool(
-        vectorstore.as_retriever(k=4),
-        name="kb_serach", 
-        description="Search renewable energy knowledge base",
+def get_context(question: str) -> str:
+    """Embed the question, query Pinecone directly, and join matched
+    chunk text - same effective behavior as the original
+    vectorstore.as_retriever(k=4) + create_retriever_tool, without the
+    langchain_core.tools / langchain_pinecone dependency chain."""
+    vector = embed_query(question)
+    results = get_index().query(
+        vector=vector,
+        top_k=TOP_K,
+        include_metadata=True,
     )
-
-
-
+    chunks = [
+        match["metadata"].get(TEXT_KEY, "")
+        for match in results.get("matches", [])
+        if match.get("metadata")
+    ]
+    return "\n\n".join(chunks)
